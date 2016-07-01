@@ -82,8 +82,16 @@ fVals2 = fs*(0:NFFT/2-1)/NFFT;	 	% Single sided DFT frequencies
 
 % Get rid of values below the threshold tolerance (occur because of the
 % rounding errors in floating point nums. Causes phase calculation errors)
-X1(abs(X1)<tolerance) = 0;
-X2(abs(X2)<tolerance) = 0;
+% X1(abs(X1)<tolerance) = 0;
+% X2(abs(X2)<tolerance) = 0;
+X1(imag(X1) < tolerance & imag(X1) > -tolerance) = ...
+    real(X1(imag(X1) < tolerance & imag(X1) > -tolerance));
+X1(real(X1) < tolerance & real(X1) > -tolerance) = ...
+    imag(X1(real(X1) < tolerance & real(X1) > -tolerance));
+X2(imag(X2) < tolerance & imag(X2) > -tolerance) = ...
+    real(X2(imag(X2) < tolerance & imag(X2) > -tolerance));
+X2(real(X2) < tolerance & real(X2) > -tolerance) = ...
+    imag(X2(real(X2) < tolerance & real(X2) > -tolerance));
 
 
 %% Real and Imaginary components
