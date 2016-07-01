@@ -56,17 +56,6 @@ x = A*cos(2*pi*f*t+phase);          % time domain signal
 x = x + noise_std*randn(size(x));   % signal plus noise
 L = length(x);                      % signal length
 
-figure('Position',[fig_c(1),fig_r(1),fig_w,fig_h]);
-if (STEM) 
-    stem(t,x);
-else
-    plot(t,x);
-end
-title('Input Signal');
-%title(['Sine Wave f=', num2str(f), 'Hz']);
-xlabel('Time(s)');
-ylabel('Amplitude');
-
 
 %% Generate DFT
 X1     = fft(x,NFFT);               % Compute DFT using FFT	 	 
@@ -94,7 +83,20 @@ X2(real(X2) < tolerance & real(X2) > -tolerance) = ...
     imag(X2(real(X2) < tolerance & real(X2) > -tolerance));
 
 
-%% Real and Imaginary components
+%% Figure - Signal
+figure('Position',[fig_c(1),fig_r(1),fig_w,fig_h]);
+if (STEM) 
+    stem(t,x);
+else
+    plot(t,x);
+end
+title('Input Signal');
+%title(['Sine Wave f=', num2str(f), 'Hz']);
+xlabel('Time(s)');
+ylabel('Amplitude');
+
+
+%% Figure - Real and Imaginary components
 figure('Position',[fig_c(2),fig_r(1),fig_w,fig_h]);
 subplot(2,1,1);
 if (STEM) 
@@ -116,7 +118,7 @@ xlabel(['Sample points (', num2str(NFFT), '-point DFT)']);
 ylabel('Imag DFT Values');
 xlim([nVals1(1),nVals1(NFFT-1)]);
 
-%% Magnitude
+%% Figure - Magnitude
 figure('Position',[fig_c(3),fig_r(1),fig_w,fig_h]);
 if (STEM) 
     stem(nVals1,abs(X1));
@@ -149,6 +151,8 @@ xlabel('Normalized Frequency');
 ylabel('|DFT Values|');
 %xlim([nVals3(1),nVals3(NFFT-1)]);
 
+
+%% Figure - Magnitude and Phase
 figure('Position',[fig_c(1),fig_r(2),fig_w,fig_h]);
 subplot(2,1,1)
 if (STEM) 
@@ -174,8 +178,7 @@ ax = gca;
 ax.YTick = [-180,-90,0,90,180];
 
 
-
-%% Power Spectral Density
+%% Figure - Power Spectral Density
 figure('Position',[fig_c(2),fig_r(2),fig_w,fig_h]);
 if (STEM) 
     stem(fVals1,Px,'b');
@@ -195,9 +198,7 @@ ylabel('Power (dB)');
 xlim([-fs/2,fs/2]);
 
 
-
-
-%% Single Sided Power Spectral Density
+%% Figure - Single Sided Power Spectral Density
 figure('Position',[fig_c(4),fig_r(2),fig_w,fig_h]);
 if (STEM) 
     stem(fVals2,Px2(1:NFFT/2),'b','LineWidth',1);
